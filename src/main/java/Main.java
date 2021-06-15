@@ -8,7 +8,7 @@ public class Main {
         int keySize  =0;
         ArrayList<Integer> key = new ArrayList<>() ;
 
-        System.out.print("Insert the message : ");
+/*        System.out.print("Insert the message : ");
         message = new Scanner(System.in).nextLine().toUpperCase();
 
        do {
@@ -27,7 +27,14 @@ public class Main {
 
             }
             break;
-        }while (true);
+        }while (true);*/
+
+        message = "Quick brown fox jumps";
+        key.add(4);
+        key.add(2);
+        key.add(5);
+        key.add(3);
+        key.add(1);
 
         Encryption encryption = new Encryption( key , message);
         encryption.doEncryption();
