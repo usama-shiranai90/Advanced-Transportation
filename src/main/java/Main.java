@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Main {
 
@@ -23,9 +25,6 @@ public class Main {
             break;
         }while (true);*/
 
-        String myStr = "12,33,5";
-        myStr = myStr.replaceAll( "[^\\d]", "" );
-        System.out.println(myStr);
 
         String message;
         ArrayList<Integer> key = new ArrayList<>();
@@ -33,18 +32,36 @@ public class Main {
         System.out.print("Insert the message : ");
         message = new Scanner(System.in).nextLine().toUpperCase();
 
-       do {
-           System.out.print("Enter key ");
-           String temp = new Scanner(System.in).nextLine();
+        do {
+            System.out.print("Enter key ");
+            String temp = new Scanner(System.in).nextLine();
+
+            boolean flag = temp.chars().allMatch(Character::isDigit);
+            System.out.println(flag);
+            if (flag){ //  numeric hai
+
+                if (temp.contains(",")){
+                    removeCommaAndSplit(temp , key);
+                }
+                else {
+                 removeCommaAndSplit(temp ,key);
+                }
+
+
+            }
+            else if (temp.chars().allMatch(Character::isAlphabetic)){  //  agr alphabets hai.
+
+            }
+
+            else {
+                System.err.println("Key should either be Numeric or Alphabet , not both !");
+                System.exit(0);
+            }
 
 
 
-
-           break;
-       }while (true);
-
-
-
+            break;
+        } while (true);
 
 
         Encryption encryption = new Encryption(key, message);
@@ -55,13 +72,27 @@ public class Main {
 
         System.out.println("\n\n---------------------Decryption---------------------\n");
 
-        Decryption decryption =  new Decryption(key, cipherText);
+        Decryption decryption = new Decryption(key, cipherText);
         decryption.doDecryption();
 
     }
 
+    private static void removeCommaAndSplit(String temp, ArrayList<Integer> key) {
+        temp = temp.replaceAll("[^\\d]", "");
 
-    private static void sampleData(String message , ArrayList<Integer> key){
+        String finalTemp = temp;
+        IntStream.iterate(0, i -> i+1).limit(temp.length()).forEach(value -> {
+
+            int keyPerIndex = Integer.parseInt(String.valueOf(finalTemp.charAt(value)));
+            key.add(keyPerIndex);
+        });
+
+        System.out.println(key);
+
+    }
+
+
+    private static void sampleData(String message, ArrayList<Integer> key) {
         message = "Quick brown fox jumps";
         key.add(4);
         key.add(2);
@@ -69,8 +100,6 @@ public class Main {
         key.add(3);
         key.add(1);
     }
-
-
 
 
 }
