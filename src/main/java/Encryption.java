@@ -28,13 +28,11 @@ public class Encryption {
         messageSize = countCipherMessageLength(plainText);
         rowSize = (int) Math.ceil(((float) messageSize/(float) columnSizeByKey));
 
-        System.out.println("(float) (messageSize / columnSizeByKey) = " + ( (float) messageSize/columnSizeByKey ))  ;
-
         setMyMessageIntoMap(characterHashMap, plainText);
 
-        System.out.println("rowSize = " + rowSize);
+/*        System.out.println("rowSize = " + rowSize);
         System.out.println("columnSizeByKey = " + columnSizeByKey);
-        System.out.println("messageSize = " + messageSize);
+        System.out.println("messageSize = " + messageSize);*/
 
     }
 
@@ -50,10 +48,10 @@ public class Encryption {
             }
         }
 
-        for (Map.Entry<Integer, Character> map : characterHashMap.entrySet()) {
+/*        for (Map.Entry<Integer, Character> map : characterHashMap.entrySet()) {
             System.out.print(map.getKey() + " = " + map.getValue() + "   ");
         }
-        System.out.println();
+        System.out.println();*/
 
     }
 
@@ -69,7 +67,6 @@ public class Encryption {
 
         int count = columnSizeByKey - 1;
         int listIndex = 0;
-
 
         for (int col = 0; col < columnSizeByKey; col++) {
 
@@ -125,9 +122,15 @@ public class Encryption {
         this.plainText = plainText;
     }
 
+    public String getCipherText() {
+        return cipherText;
+    }
 
+    public void setCipherText(String cipherText) {
+        this.cipherText = cipherText;
+    }
 
-    /**  Use in the beginning of doEncryption
+/**  Use in the beginning of doEncryption
      *
      *   for (int row = 0; row < columnSizeByKey; row++) {
      *             ArrayList<Character> arrayList = new ArrayList<>();

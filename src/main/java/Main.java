@@ -4,14 +4,8 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        String message ="";
-        int keySize  =0;
-        ArrayList<Integer> key = new ArrayList<>() ;
 
-/*        System.out.print("Insert the message : ");
-        message = new Scanner(System.in).nextLine().toUpperCase();
-
-       do {
+/*       do {
             System.out.print("Enter Key Size (must be numeric) :");
             keySize = new Scanner(System.in).nextInt();
 
@@ -29,16 +23,54 @@ public class Main {
             break;
         }while (true);*/
 
+        String myStr = "12,33,5";
+        myStr = myStr.replaceAll( "[^\\d]", "" );
+        System.out.println(myStr);
+
+        String message;
+        ArrayList<Integer> key = new ArrayList<>();
+
+        System.out.print("Insert the message : ");
+        message = new Scanner(System.in).nextLine().toUpperCase();
+
+       do {
+           System.out.print("Enter key ");
+           String temp = new Scanner(System.in).nextLine();
+
+
+
+
+           break;
+       }while (true);
+
+
+
+
+
+        Encryption encryption = new Encryption(key, message);
+        encryption.doEncryption();
+
+        String cipherText = encryption.getCipherText();
+
+
+        System.out.println("\n\n---------------------Decryption---------------------\n");
+
+        Decryption decryption =  new Decryption(key, cipherText);
+        decryption.doDecryption();
+
+    }
+
+
+    private static void sampleData(String message , ArrayList<Integer> key){
         message = "Quick brown fox jumps";
         key.add(4);
         key.add(2);
         key.add(5);
         key.add(3);
         key.add(1);
-
-        Encryption encryption = new Encryption( key , message);
-        encryption.doEncryption();
-
     }
+
+
+
 
 }
