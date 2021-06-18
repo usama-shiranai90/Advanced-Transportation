@@ -4,16 +4,15 @@ import java.util.stream.IntStream;
 public class Decryption {
 
     private ArrayList<Integer> key;
-    private ArrayList<Integer> sortedKey;
+    private final ArrayList<Integer> sortedKey;
     private String message;
     private String cipherText;
 
-    private LinkedHashMap<Integer, ArrayList<Character>> table;
+    private final LinkedHashMap<Integer, ArrayList<Character>> table;
     private final int columnSizeByKey;
     private final int rowSize;
-    private final int cipherTextLength;
 
-    private LinkedHashMap<Integer, Character> characterHashMap;
+    private final LinkedHashMap<Integer, Character> characterHashMap;
 
 
     public Decryption(ArrayList<Integer> key, String cipherText) {
@@ -23,7 +22,7 @@ public class Decryption {
         characterHashMap = new LinkedHashMap<>();
         sortedKey = new ArrayList<>();
         columnSizeByKey = key.size();
-        cipherTextLength = cipherText.length();
+        int cipherTextLength = cipherText.length();
         rowSize = (int) Math.ceil(((float) cipherTextLength / (float) columnSizeByKey));
 
         sortedKey.addAll(key);
@@ -48,14 +47,12 @@ public class Decryption {
                 char c = cipherText.charAt(value);
 
                 if (c == '*')
-                    characterArrayList.add('*');
+                    characterArrayList.add(' ');
                 else
                     characterArrayList.add(row, characterHashMap.get(value));
 
                 listIndex++;
             }
-
-            System.out.println("characterArrayList = " + characterArrayList + "\t\t" + sortedKey.get(col));
             table.put(sortedKey.get(col), characterArrayList);
 
         }
@@ -70,8 +67,14 @@ public class Decryption {
             }
 
         }
-        System.out.println("message = " + message);
+        ArrayList<Integer> tmp  = new ArrayList<>(table.keySet());
 
+        MatrixTable matrixTable = new MatrixTable(table, columnSizeByKey, rowSize);
+
+        matrixTable.executeTable("final", tmp);
+        matrixTable.executeTable("first", key);
+
+        System.out.println("message = " + message);
 
     }
 
@@ -86,6 +89,11 @@ public class Decryption {
         System.out.println();
 
     }
+
+
+
+
+
 
     public ArrayList<Integer> getKey() {
         return key;

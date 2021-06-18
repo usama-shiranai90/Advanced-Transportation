@@ -16,7 +16,7 @@ public class Encryption {
     private final int messageSize; // message to pass length.
 
     private final HashMap<Integer, Character> characterHashMap;
-    private String cipherText ;
+    private String cipherText;
 
     public Encryption(ArrayList<Integer> key, String plainText) {
         this.key = key;
@@ -26,13 +26,9 @@ public class Encryption {
         characterHashMap = new HashMap<>();
         columnSizeByKey = key.size();
         messageSize = countCipherMessageLength(plainText);
-        rowSize = (int) Math.ceil(((float) messageSize/(float) columnSizeByKey));
+        rowSize = (int) Math.ceil(((float) messageSize / (float) columnSizeByKey));
 
         setMyMessageIntoMap(characterHashMap, plainText);
-
-/*        System.out.println("rowSize = " + rowSize);
-        System.out.println("columnSizeByKey = " + columnSizeByKey);
-        System.out.println("messageSize = " + messageSize);*/
 
     }
 
@@ -48,10 +44,6 @@ public class Encryption {
             }
         }
 
-/*        for (Map.Entry<Integer, Character> map : characterHashMap.entrySet()) {
-            System.out.print(map.getKey() + " = " + map.getValue() + "   ");
-        }
-        System.out.println();*/
 
     }
 
@@ -68,33 +60,46 @@ public class Encryption {
         int count = columnSizeByKey - 1;
         int listIndex = 0;
 
+
+
         for (int col = 0; col < columnSizeByKey; col++) {
 
-            ArrayList<Character> arrayList =  new ArrayList<>();
+            ArrayList<Character> arrayList = new ArrayList<>();
             for (int row = 0; row < rowSize; row++) {
 
-                int value = col + row + ( (count) * row ) ;
+                int value = col + row + ((count) * row);
 
-                if (value > messageSize -1)
+                if (value > messageSize - 1)
                     arrayList.add('*');
                 else
-                arrayList.add(characterHashMap.get(value));
+                    arrayList.add(characterHashMap.get(value));
             }
-            table.put( key.get(col) ,arrayList);
+            table.put(key.get(col), arrayList);
 
         }
 
-        for (Map.Entry<Integer, ArrayList<Character>> entry : table.entrySet()) {
-            System.out.println(entry.getKey() + " " + entry.getValue());
+        LinkedHashMap<Integer , ArrayList<Character>> tempTable = new LinkedHashMap<>(table);
 
+        MatrixTable matrixTable = new MatrixTable( tempTable, columnSizeByKey, rowSize);
+
+        matrixTable.executeTable("first" ,key);
+        ArrayList<Integer> tmp  = new ArrayList<>(table.keySet());
+        matrixTable.executeTable("final" , tmp);
+
+        createCipher();
+
+        System.out.println("cipherText = " + cipherText);
+
+    }
+
+    private void createCipher() {
+
+        for (Map.Entry<Integer, ArrayList<Character>> entry : table.entrySet()) {
             for (Character c : entry.getValue() ){
                 cipherText = cipherText.concat(String.valueOf(c)) ;
             }
 
         }
-
-        System.out.println("cipherText = " + cipherText);
-
     }
 
 
@@ -131,15 +136,15 @@ public class Encryption {
     }
 
 /**  Use in the beginning of doEncryption
-     *
-     *   for (int row = 0; row < columnSizeByKey; row++) {
-     *             ArrayList<Character> arrayList = new ArrayList<>();
-     *             for (int j = 0; j < rowSize; j++) {
-     *                 arrayList.add('0');
-     *             }
-     *             table.put(key.get(row), arrayList);
-     *
-     *         }
-    * */
+ *
+ *   for (int row = 0; row < columnSizeByKey; row++) {
+ *             ArrayList<Character> arrayList = new ArrayList<>();
+ *             for (int j = 0; j < rowSize; j++) {
+ *                 arrayList.add('0');
+ *             }
+ *             table.put(key.get(row), arrayList);
+ *
+ *         }
+ * */
 
 }
